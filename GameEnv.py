@@ -1,7 +1,7 @@
 import pygame
 import math
-from Walls import Wall
-from Walls import getWalls
+from capture_wall import Wall
+from capture_wall import getWalls
 from Goals import Goal
 from Goals import getGoals
 
@@ -10,6 +10,8 @@ from Goals import getGoals
 GOALREWARD = 1
 LIFE_REWARD = 0
 PENALTY = -1
+
+TRACK_IMAGE = 'AWS_track.png'
 
 
 def distance(pt1, pt2):
@@ -36,7 +38,7 @@ class myPoint:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        
+
 class myLine:
     def __init__(self, pt1, pt2):
         self.pt1 = myPoint(pt1.x, pt1.y)
@@ -49,20 +51,20 @@ class Ray:
         self.angle = angle
 
     def cast(self, wall):
-        x1 = wall.x1 
+        x1 = wall.x1
         y1 = wall.y1
         x2 = wall.x2
         y2 = wall.y2
 
         vec = rotate(myPoint(0,0), myPoint(0,-1000), self.angle)
-        
+
         x3 = self.x
         y3 = self.y
         x4 = self.x + vec.x
         y4 = self.y + vec.y
 
         den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
-            
+
         if(den == 0):
             den = 0
         else:
@@ -73,7 +75,7 @@ class Ray:
                 pt = myPoint(math.floor(x1 + t * (x2 - x1)), math.floor(y1 + t * (y2 - y1)))
                 return(pt)
 
- 
+
 
 class Car:
     def __init__(self, x, y):
@@ -113,7 +115,7 @@ class Car:
         self.p4 = self.pt4
 
         self.distances = []
-    
+
 
     def action(self, choice):
         if choice == 0:
@@ -139,7 +141,7 @@ class Car:
         elif choice == 2:
             self.turn(-1)
         pass
-    
+
     def accelerate(self,dvel):
         dvel = dvel * 2
 
@@ -147,30 +149,30 @@ class Car:
 
         if self.vel > self.maxvel:
             self.vel = self.maxvel
-        
+
         if self.vel < -self.maxvel:
             self.vel = -self.maxvel
-        
-        
+
+
     def turn(self, dir):
         self.soll_angle = self.soll_angle + dir * math.radians(15)
-    
+
     def update(self):
 
-        #drifting code 
+        #drifting code
 
         # if(self.soll_angle > self.angle):
         #     if(self.soll_angle > self.angle + math.radians(10) * self.maxvel / ((self.velX**2 + self.velY**2)**0.5 + 1)):
         #         self.angle = self.angle + math.radians(10) * self.maxvel / ((self.velX**2 + self.velY**2)**0.5 + 1)
         #     else:
         #         self.angle = self.soll_angle
-        
+
         # if(self.soll_angle < self.angle):
         #     if(self.soll_angle < self.angle - math.radians(10) * self.maxvel / ((self.velX**2 + self.velY**2)**0.5 + 1)):
         #         self.angle = self.angle - math.radians(10) * self.maxvel / ((self.velX**2 + self.velY**2)**0.5 + 1)
         #     else:
         #         self.angle = self.soll_angle
-        
+
         self.angle = self.soll_angle
 
         vec_temp = rotate(myPoint(0,0), myPoint(0,self.vel), self.angle)
@@ -255,11 +257,11 @@ class Car:
                         record = dist
                         closest = pt
 
-            if closest: 
-                #append distance for current ray 
+            if closest:
+                #append distance for current ray
                 self.closestRays.append(closest)
                 observations.append(record)
-               
+
             else:
                 observations.append(1000)
 
@@ -277,7 +279,7 @@ class Car:
         line3 = myLine(self.p3, self.p4)
         line4 = myLine(self.p4, self.p1)
 
-        x1 = wall.x1 
+        x1 = wall.x1
         y1 = wall.y1
         x2 = wall.x2
         y2 = wall.y2
@@ -289,14 +291,14 @@ class Car:
         lines.append(line4)
 
         for li in lines:
-            
+
             x3 = li.pt1.x
             y3 = li.pt1.y
             x4 = li.pt2.x
             y4 = li.pt2.y
 
             den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
-            
+
             if(den == 0):
                 den = 0
             else:
@@ -305,28 +307,28 @@ class Car:
 
                 if t > 0 and t < 1 and u < 1 and u > 0:
                     return(True)
-        
+
         return(False)
-    
+
     def score(self, goal):
-        
+
         line1 = myLine(self.p1, self.p3)
 
         vec = rotate(myPoint(0,0), myPoint(0,-50), self.angle)
         line1 = myLine(myPoint(self.x,self.y),myPoint(self.x + vec.x, self.y + vec.y))
 
-        x1 = goal.x1 
+        x1 = goal.x1
         y1 = goal.y1
         x2 = goal.x2
         y2 = goal.y2
-            
+
         x3 = line1.pt1.x
         y3 = line1.pt1.y
         x4 = line1.pt2.x
         y4 = line1.pt2.y
 
         den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
-        
+
         if(den == 0):
             den = 0
         else:
@@ -367,7 +369,7 @@ class Car:
 
     def draw(self, win):
         win.blit(self.image, self.rect)
-  
+
 
 class RacingEnv:
 
@@ -376,28 +378,28 @@ class RacingEnv:
         self.font = pygame.font.Font(pygame.font.get_default_font(), 36)
 
         self.fps = 120
-        self.width = 1000
-        self.height = 600
+        self.width = 800
+        self.height = 635
         self.history = []
 
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption("RACING DQN")
         self.screen.fill((0,0,0))
-        self.back_image = pygame.image.load("AWS_track.png").convert()
+        self.back_image = pygame.image.load(TRACK_IMAGE).convert()
         self.back_rect = self.back_image.get_rect().move(0, 0)
         self.action_space = None
         self.observation_space = None
         self.game_reward = 0
         self.score = 0
- 
+
         self.reset()
 
 
     def reset(self):
         self.screen.fill((0, 0, 0))
 
-        self.car = Car(50, 300)
-        self.walls = getWalls()
+        self.car = Car(90, 330)
+        self.walls = getWalls(TRACK_IMAGE)
         self.goals = getGoals()
         self.game_reward = 0
 
@@ -411,7 +413,7 @@ class RacingEnv:
         # Check if car passes Goal and scores
         index = 1
         for goal in self.goals:
-            
+
             if index > len(self.goals):
                 index = 1
             if goal.isactiv:
@@ -437,8 +439,8 @@ class RacingEnv:
 
     def render(self, action):
 
-        DRAW_WALLS = False
-        DRAW_GOALS = True
+        DRAW_WALLS = True
+        DRAW_GOALS = False
         DRAW_RAYS = False
 
         pygame.time.delay(10)
@@ -451,13 +453,13 @@ class RacingEnv:
         if DRAW_WALLS:
             for wall in self.walls:
                 wall.draw(self.screen)
-        
+
         if DRAW_GOALS:
             for goal in self.goals:
                 goal.draw(self.screen)
                 if goal.isactiv:
                     goal.draw(self.screen)
-        
+
         self.car.draw(self.screen)
 
         if DRAW_RAYS:
@@ -481,7 +483,7 @@ class RacingEnv:
         pygame.draw.rect(self.screen,(255,255,255),(850, 50, 40, 40),2)
 
         if action == 4:
-            pygame.draw.rect(self.screen,(0,255,0),(850, 50, 40, 40)) 
+            pygame.draw.rect(self.screen,(0,255,0),(850, 50, 40, 40))
         elif action == 6:
             pygame.draw.rect(self.screen,(0,255,0),(850, 50, 40, 40))
             pygame.draw.rect(self.screen,(0,255,0),(800, 100, 40, 40))
@@ -489,7 +491,7 @@ class RacingEnv:
             pygame.draw.rect(self.screen,(0,255,0),(850, 50, 40, 40))
             pygame.draw.rect(self.screen,(0,255,0),(900, 100, 40, 40))
         elif action == 1:
-            pygame.draw.rect(self.screen,(0,255,0),(850, 100, 40, 40)) 
+            pygame.draw.rect(self.screen,(0,255,0),(850, 100, 40, 40))
         elif action == 8:
             pygame.draw.rect(self.screen,(0,255,0),(850, 100, 40, 40))
             pygame.draw.rect(self.screen,(0,255,0),(800, 100, 40, 40))
@@ -513,6 +515,3 @@ class RacingEnv:
 
     def close(self):
         pygame.quit()
-
-
-
