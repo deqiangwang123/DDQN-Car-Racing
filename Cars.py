@@ -84,7 +84,7 @@ class Car:
             x2 = wall.x2
             y2 = wall.y2
 
-            vec = Car().rotate(Point(0,0), Point(0,-1000), self.angle)
+            vec = Car(0,0).rotate(Point(0,0), Point(0,-1000), self.angle)
             
             x3 = self.x
             y3 = self.y
@@ -167,27 +167,27 @@ class Car:
 
     def cast(self, walls):
 
-        ray1 = Car().Ray(self.x, self.y, self.soll_angle)
-        ray2 = Car().Ray(self.x, self.y, self.soll_angle - math.radians(30))
-        ray3 = Car().Ray(self.x, self.y, self.soll_angle + math.radians(30))
-        ray4 = Car().Ray(self.x, self.y, self.soll_angle + math.radians(45))
-        ray5 = Car().Ray(self.x, self.y, self.soll_angle - math.radians(45))
-        ray6 = Car().Ray(self.x, self.y, self.soll_angle + math.radians(90))
-        ray7 = Car().Ray(self.x, self.y, self.soll_angle - math.radians(90))
-        ray8 = Car().Ray(self.x, self.y, self.soll_angle + math.radians(180))
+        ray1 = self.Ray(self.x, self.y, self.soll_angle)
+        ray2 = self.Ray(self.x, self.y, self.soll_angle - math.radians(30))
+        ray3 = self.Ray(self.x, self.y, self.soll_angle + math.radians(30))
+        ray4 = self.Ray(self.x, self.y, self.soll_angle + math.radians(45))
+        ray5 = self.Ray(self.x, self.y, self.soll_angle - math.radians(45))
+        ray6 = self.Ray(self.x, self.y, self.soll_angle + math.radians(90))
+        ray7 = self.Ray(self.x, self.y, self.soll_angle - math.radians(90))
+        ray8 = self.Ray(self.x, self.y, self.soll_angle + math.radians(180))
 
-        ray9 =  Car().Ray(self.x, self.y, self.soll_angle + math.radians(10))
-        ray10 = Car().Ray(self.x, self.y, self.soll_angle - math.radians(10))
-        ray11 = Car().Ray(self.x, self.y, self.soll_angle + math.radians(135))
-        ray12 = Car().Ray(self.x, self.y, self.soll_angle - math.radians(135))
-        ray13 = Car().Ray(self.x, self.y, self.soll_angle + math.radians(20))
-        ray14 = Car().Ray(self.x, self.y, self.soll_angle - math.radians(20))
+        ray9 =  self.Ray(self.x, self.y, self.soll_angle + math.radians(10))
+        ray10 = self.Ray(self.x, self.y, self.soll_angle - math.radians(10))
+        ray11 = self.Ray(self.x, self.y, self.soll_angle + math.radians(135))
+        ray12 = self.Ray(self.x, self.y, self.soll_angle - math.radians(135))
+        ray13 = self.Ray(self.x, self.y, self.soll_angle + math.radians(20))
+        ray14 = self.Ray(self.x, self.y, self.soll_angle - math.radians(20))
 
-        ray15 = Car().Ray(self.p1.x,self.p1.y, self.soll_angle + math.radians(90))
-        ray16 = Car().Ray(self.p2.x,self.p2.y, self.soll_angle - math.radians(90))
+        ray15 = self.Ray(self.p1.x,self.p1.y, self.soll_angle + math.radians(90))
+        ray16 = self.Ray(self.p2.x,self.p2.y, self.soll_angle - math.radians(90))
 
-        ray17 = Car().Ray(self.p1.x,self.p1.y, self.soll_angle + math.radians(0))
-        ray18 = Car().Ray(self.p2.x,self.p2.y, self.soll_angle - math.radians(0))
+        ray17 = self.Ray(self.p1.x,self.p1.y, self.soll_angle + math.radians(0))
+        ray18 = self.Ray(self.p2.x,self.p2.y, self.soll_angle - math.radians(0))
 
         self.rays = []
         self.rays.append(ray1)
@@ -217,14 +217,17 @@ class Car:
         self.closestRays = []
 
         for ray in self.rays:
+            temp = math.inf
             for wall in walls:
                 pt = ray.cast(wall)
                 if pt:
                     # add the dist by different rays
                     dist = self.distance(Point(self.x, self.y),pt)
-                    observations.append(dist)
-                else:
-                    observations.append(10000)
+                    if dist < temp:
+                        temp = dist
+            observations.append(temp)
+                # else:
+                #     observations.append(10000)
 
         observations.append(self.vel / self.maxvel)
         return observations

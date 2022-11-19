@@ -12,6 +12,15 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "cwd": "${workspaceFolder}",
+        },
+        {
+            "name": "main_racing",
+            "type": "python",
+            "request": "launch",
+            "program": "main_racing.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}",
         }
     ]
 }
