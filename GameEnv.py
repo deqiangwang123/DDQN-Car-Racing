@@ -383,7 +383,7 @@ class RacingEnv:
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption("RACING DQN")
         self.screen.fill((0,0,0))
-        self.back_image = pygame.image.load("track.png").convert()
+        self.back_image = pygame.image.load("AWS_track.png").convert()
         self.back_rect = self.back_image.get_rect().move(0, 0)
         self.action_space = None
         self.observation_space = None
@@ -438,7 +438,7 @@ class RacingEnv:
     def render(self, action):
 
         DRAW_WALLS = False
-        DRAW_GOALS = False
+        DRAW_GOALS = True
         DRAW_RAYS = False
 
         pygame.time.delay(10)
