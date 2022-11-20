@@ -12,9 +12,9 @@ import random
 # MINIBATCH_SIZE = 512
 
 
-REPLAY_MEMORY_SIZE = 25
-MIN_REPLAY_MEMORY_SIZE = 15
-MINIBATCH_SIZE = 5
+REPLAY_MEMORY_SIZE = 100
+MIN_REPLAY_MEMORY_SIZE = 100
+MINIBATCH_SIZE = 50
 
 DISCOUNT = 0.99
 PREDICTION_BATCH_SIZE = 1
@@ -108,9 +108,9 @@ class DQNAgent:
             y.append(current_qs)
 
         log_this_step = False
-        if self.tensorboard.step > self.last_logged_episode:
-            log_this_step = True
-            self.last_log_episode = self.tensorboard.step
+        # if self.tensorboard.step > self.last_logged_episode:
+        #     log_this_step = True
+        #     self.last_log_episode = self.tensorboard.step
 
         # with self.graph.as_default():
         self.model.fit(np.array(X), np.array(y), batch_size=TRAINING_BATCH_SIZE, verbose=0, shuffle=False, callbacks=[self.tensorboard] if log_this_step else None)
