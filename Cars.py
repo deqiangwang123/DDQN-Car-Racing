@@ -270,6 +270,42 @@ class Car:
         
         return(False)
 
+    def cross_goal(self, goal):
+        
+        line1 = Line(self.p1, self.p3)
+
+        vec = self.rotate(Point(0,0), Point(0,-50), self.angle)
+        line1 = Line(Point(self.x,self.y),Point(self.x + vec.x, self.y + vec.y))
+
+        x1 = goal.x1 
+        y1 = goal.y1
+        x2 = goal.x2
+        y2 = goal.y2
+            
+        x3 = line1.pt1.x
+        y3 = line1.pt1.y
+        x4 = line1.pt2.x
+        y4 = line1.pt2.y
+
+        den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+        
+        if(den == 0):
+            den = 0
+        else:
+            t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / den
+            u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / den
+
+            if t > 0 and t < 1 and u < 1 and u > 0:
+                pt = math.floor(x1 + t * (x2 - x1)), math.floor(y1 + t * (y2 - y1))
+
+                d = self.distance(Point(self.x, self.y), Point(pt[0], pt[1]))
+                if d < 20:
+                    #pygame.draw.circle(win, (0,255,0), pt, 5)
+                    # self.points += GOAL_REWARD
+                    return(True)
+
+        return(False)
+
     def reset(self):
 
         self.x = 50

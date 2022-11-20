@@ -11,7 +11,8 @@ LIFE_REWARD = 0
 NEG_SPEED_PENALTY = -10
 LOW_SPEED_PENALTY = -1
 RUN_REWARD = 1
-CRASH_PENALTY = -10000
+CRASH_PENALTY = -100000
+GOAL_REWARD = 100
 
 class RacingEnv:
 
@@ -58,6 +59,20 @@ class RacingEnv:
             reward = LOW_SPEED_PENALTY
         else:
             reward = RUN_REWARD
+
+        # Check if car passes Goal and scores
+        index = 1
+        for goal in self.goals:
+            
+            if index > len(self.goals):
+                index = 1
+            if goal.isactiv:
+                if self.car.cross_goal(goal):
+                    goal.isactiv = False
+                    self.goals[index-2].isactiv = True
+                    reward += GOAL_REWARD
+
+            index = index + 1
 
         #check if car crashed in the wall
         for wall in self.walls:
