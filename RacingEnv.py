@@ -11,7 +11,7 @@ LIFE_REWARD = 0
 NEG_SPEED_PENALTY = -10
 LOW_SPEED_PENALTY = -1
 RUN_REWARD = 1
-CRASH_PENALTY = -100000
+CRASH_PENALTY = -1000
 GOAL_REWARD = 100
 
 class RacingEnv:
@@ -90,8 +90,8 @@ class RacingEnv:
     def render(self, action):
 
         DRAW_WALLS = False
-        DRAW_GOALS = False
-        DRAW_RAYS = True
+        DRAW_GOALS = True
+        DRAW_RAYS = False
 
         pygame.time.delay(10)
 

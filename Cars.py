@@ -306,7 +306,7 @@ class Car:
                 d = self.distance(Point(self.x, self.y), Point(pt[0], pt[1]))
                 if d < 20:
                     #pygame.draw.circle(win, (0,255,0), pt, 5)
-                    # self.points += GOAL_REWARD
+                    self.points += 1
                     return(True)
 
         return(False)
