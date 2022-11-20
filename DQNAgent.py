@@ -7,9 +7,15 @@ from collections import deque
 import random
 
 
-REPLAY_MEMORY_SIZE = 25000
-MIN_REPLAY_MEMORY_SIZE = 15000
-MINIBATCH_SIZE = 512
+# REPLAY_MEMORY_SIZE = 25000
+# MIN_REPLAY_MEMORY_SIZE = 15000
+# MINIBATCH_SIZE = 512
+
+
+REPLAY_MEMORY_SIZE = 25
+MIN_REPLAY_MEMORY_SIZE = 15
+MINIBATCH_SIZE = 5
+
 DISCOUNT = 0.99
 PREDICTION_BATCH_SIZE = 1
 TRAINING_BATCH_SIZE = MINIBATCH_SIZE
@@ -77,11 +83,11 @@ class DQNAgent:
 
         minibatch = random.sample(self.replay_memory, MINIBATCH_SIZE)
 
-        current_states = np.array([transition[0] for transition in minibatch])/255
+        current_states = np.array([transition[0] for transition in minibatch])
         # with self.graph.as_default():
         current_qs_list = self.model.predict(current_states, PREDICTION_BATCH_SIZE)
 
-        new_current_states = np.array([transition[3] for transition in minibatch])/255
+        new_current_states = np.array([transition[3] for transition in minibatch])
         # with self.graph.as_default():
         future_qs_list = self.target_model.predict(new_current_states, PREDICTION_BATCH_SIZE)
 
@@ -128,8 +134,8 @@ class DQNAgent:
         self.model.save(self.model_file)
         
     def load_model(self):
-        self.model = load_model(self.model_file)
-        self.target_model = load_model(self.model_file)
+        self.model.load_model(self.model_file)
+        self.target_model.load_model(self.model_file)
        
         if self.epsilon == 0.0:
             self.update_network_parameters()

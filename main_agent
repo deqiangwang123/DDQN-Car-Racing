@@ -31,7 +31,7 @@ def run():
     for e in range(N_EPISODES):
         
         game.reset() #reset env 
-        dqnAgent.load_model()
+        # dqnAgent.load_model()
         done = False
         score = 0
         counter = 0
@@ -41,7 +41,7 @@ def run():
 
         gtime = 0 # set game time back to 0
         
-        renderFlag = False # if you want to render every episode set to true
+        renderFlag = True # if you want to render every episode set to true
 
         if e % 10 == 0 and e > 0: # render every 10 episodes
             renderFlag = True
