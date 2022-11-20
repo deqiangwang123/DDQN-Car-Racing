@@ -21,6 +21,15 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "cwd": "${workspaceFolder}",
+        },
+        {
+            "name": "main_agent",
+            "type": "python",
+            "request": "launch",
+            "program": "main_agent.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}",
         }
     ]
 }

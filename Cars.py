@@ -51,6 +51,8 @@ class Car:
         self.p4 = self.pt4
 
         self.distances = []
+        self.rays = []
+        self.close_rays = []
 
     def distance(self, pt1, pt2):
         return(((pt1.x - pt2.x)**2 + (pt1.y - pt2.y)**2)**0.5)
@@ -214,10 +216,11 @@ class Car:
 
 
         observations = []
-        self.closestRays = []
+        self.close_rays= []
 
         for ray in self.rays:
             temp = math.inf
+            temp_pt = Point(0,0)
             for wall in walls:
                 pt = ray.cast(wall)
                 if pt:
@@ -225,7 +228,9 @@ class Car:
                     dist = self.distance(Point(self.x, self.y),pt)
                     if dist < temp:
                         temp = dist
+                        temp_pt = pt
             observations.append(temp)
+            self.close_rays.append(temp_pt)
                 # else:
                 #     observations.append(10000)
 

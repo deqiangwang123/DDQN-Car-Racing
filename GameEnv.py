@@ -438,8 +438,8 @@ class RacingEnv:
     def render(self, action):
 
         DRAW_WALLS = False
-        DRAW_GOALS = False
-        DRAW_RAYS = True
+        DRAW_GOALS = True
+        DRAW_RAYS = False
 
         pygame.time.delay(10)
 

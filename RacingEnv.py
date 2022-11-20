@@ -114,7 +114,7 @@ class RacingEnv:
 
         if DRAW_RAYS:
             i = 0
-            for pt in self.car.closestRays:
+            for pt in self.car.close_rays:
                 pygame.draw.circle(self.screen, (0,0,255), (pt.x, pt.y), 5)
                 i += 1
                 if i < 15:
