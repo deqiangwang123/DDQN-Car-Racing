@@ -5,16 +5,16 @@ import numpy as np
 import tensorflow as tf
 from collections import deque
 import random
+from keras.models import load_model
+
+REPLAY_MEMORY_SIZE = 10000
+MIN_REPLAY_MEMORY_SIZE = 10000
+MINIBATCH_SIZE = 512
 
 
-# REPLAY_MEMORY_SIZE = 25000
-# MIN_REPLAY_MEMORY_SIZE = 15000
-# MINIBATCH_SIZE = 512
-
-
-REPLAY_MEMORY_SIZE = 100
-MIN_REPLAY_MEMORY_SIZE = 100
-MINIBATCH_SIZE = 50
+# REPLAY_MEMORY_SIZE = 100
+# MIN_REPLAY_MEMORY_SIZE = 100
+# MINIBATCH_SIZE = 50
 
 DISCOUNT = 0.99
 PREDICTION_BATCH_SIZE = 1
@@ -24,7 +24,7 @@ NUM_ACTION = 9
 STATE_DIM = 19
 
 EPSILON_INIT = 1
-EPSILON_DECAY = 0.995 ## 0.9975 99975
+EPSILON_DECAY = 0.9995 ## 0.9975 99975
 MIN_EPSILON = 0.05
 
 UPDATE_TARGET_EVERY = 50
@@ -134,8 +134,8 @@ class DQNAgent:
         self.model.save(self.model_file)
         
     def load_model(self):
-        self.model.load_model(self.model_file)
-        self.target_model.load_model(self.model_file)
+        self.model = load_model(self.model_file)
+        self.target_model = load_model(self.model_file)
        
         if self.epsilon == 0.0:
             self.update_network_parameters()

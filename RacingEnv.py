@@ -40,7 +40,7 @@ class RacingEnv:
     def reset(self):
         self.screen.fill((0, 0, 0))
 
-        self.car = Car(50, 300)
+        self.car = Car(50, 360)
         self.walls = getWalls()
         self.goals = getGoals()
         self.game_reward = 0   
@@ -77,7 +77,7 @@ class RacingEnv:
         #check if car crashed in the wall
         for wall in self.walls:
             if self.car.collision(wall):
-                reward = CRASH_PENALTY
+                reward += CRASH_PENALTY
                 done = True
 
         new_state = self.car.cast(self.walls)

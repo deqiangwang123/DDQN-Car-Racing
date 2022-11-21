@@ -22,7 +22,7 @@ dqnAgent = DQNAgent()
 # if you want to load the existing model uncomment this line.
 # careful an existing model might be overwritten
 #ddqn_agent.load_model()
-
+# dqnAgent.load_model()
 ddqn_scores = []
 eps_history = []
 

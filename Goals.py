@@ -8,6 +8,7 @@ class Goal:
         self.y2 = y2
 
         self.isactiv = False
+        self.isbackward = False
     
     def draw(self, win):
         pygame.draw.line(win, (0,255,0), (self.x1, self.y1), (self.x2, self.y2), 2)
@@ -55,7 +56,25 @@ def getGoals():
     goal23 = Goal(150,420,0,570)
     goal23_5 = Goal(0,450,130,400)
     goal24 = Goal(0,380,130,380)
+    goal24_5 = Goal(0,360,130,360)
+    goal25 = Goal(0,340,130,340)
+    goal25_5 = Goal(0,320,130,320)
+    goal26 = Goal(0,300,130,300)
+    goal26_5 = Goal(0,280,130,280)
+    goal27 = Goal(0,260,130,260)
+    goal27_5 = Goal(0,240,130,240)
+    goal28 = Goal(0,220,130,220)
+    goal28_5 = Goal(0,200,130,200)
 
+    goals.append(goal24_5)
+    # goals.append(goal25)
+    goals.append(goal25_5)
+    # goals.append(goal26)
+    goals.append(goal26_5)
+    # goals.append(goal27)
+    goals.append(goal27_5)
+    # goals.append(goal28)
+    goals.append(goal28_5)
     goals.append(goal1)
     goals.append(goal2)
     goals.append(goal2_5)
@@ -93,6 +112,7 @@ def getGoals():
     goals.append(goal23)
     goals.append(goal23_5)
     goals.append(goal24)
+
 
     goals[len(goals)-1].isactiv = True
 
