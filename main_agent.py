@@ -68,6 +68,8 @@ def run():
             if not done:
                 dqnAgent.update_replay_memory((current_state, action, reward, new_state, int(done)))
                 current_state = new_state
+            else:
+                dqnAgent.update_replay_memory((current_state, action, reward, current_state, int(done)))
             dqnAgent.train()
             
             gtime += 1

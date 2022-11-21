@@ -28,7 +28,7 @@ class Car:
         self.image.set_colorkey((0,0,0))
         self.rect = self.image.get_rect().move(self.x, self.y)
 
-        self.angle = math.radians(180)
+        self.angle = math.radians(90)
         self.soll_angle = self.angle
 
         self.dvel = 1
@@ -135,11 +135,18 @@ class Car:
 
         self.vel = self.vel + dvel
 
-        if self.vel > self.maxvel:
-            self.vel = self.maxvel
-        
+        # if self.vel > self.maxvel:
+        #     self.vel = self.maxvel
+
+        if self.vel > 0:
+            self.vel = 0
+
         if self.vel < -self.maxvel:
             self.vel = -self.maxvel
+
+        # no backward
+        # if self.vel < 0:
+        #     self.vel = 0
               
     def turn(self, dir):
         self.soll_angle = self.soll_angle + dir * math.radians(15)
@@ -235,6 +242,8 @@ class Car:
                 #     observations.append(10000)
 
         observations.append(self.vel / self.maxvel)
+        observations.append(self.soll_angle)
+        observations.append(self.dvel)
         return observations
 
     def collision(self, wall):

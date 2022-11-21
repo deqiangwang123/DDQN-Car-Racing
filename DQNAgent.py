@@ -7,16 +7,16 @@ from collections import deque
 import random
 from keras.models import load_model
 
-REPLAY_MEMORY_SIZE = 10000
-MIN_REPLAY_MEMORY_SIZE = 10000
-MINIBATCH_SIZE = 512
+REPLAY_MEMORY_SIZE = 5000
+MIN_REPLAY_MEMORY_SIZE = 5000
+MINIBATCH_SIZE = 256
 
 
 # REPLAY_MEMORY_SIZE = 100
 # MIN_REPLAY_MEMORY_SIZE = 100
 # MINIBATCH_SIZE = 50
 
-DISCOUNT = 0.99
+DISCOUNT = 0.999
 PREDICTION_BATCH_SIZE = 1
 TRAINING_BATCH_SIZE = MINIBATCH_SIZE
 
@@ -53,6 +53,7 @@ class DQNAgent:
     def create_model(self):
         model = tf.keras.Sequential()
         model.add(tf.keras.Input(shape=(STATE_DIM,)))
+        model.add(tf.keras.layers.Dense(512, activation=tf.nn.relu)) #prev 256 
         model.add(tf.keras.layers.Dense(256, activation=tf.nn.relu)) #prev 256 
         model.add(tf.keras.layers.Dense(32, activation=tf.nn.relu)) #prev 256
         model.add(tf.keras.layers.Dense(NUM_ACTION, activation=tf.nn.softmax))
@@ -128,7 +129,7 @@ class DQNAgent:
         return self.model.predict(np.array(state).reshape(-1, *state.shape)/255)[0]
     
     def update_network_parameters(self):
-        self.brain_target.copy_weights(self.brain_eval)
+        self.target_model.set_weights(self.model.get_weights())
 
     def save_model(self):
         self.model.save(self.model_file)
