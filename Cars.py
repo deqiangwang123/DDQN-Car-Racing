@@ -187,18 +187,18 @@ class Car:
         ray7 = self.Ray(self.x, self.y, self.soll_angle - math.radians(90))
         ray8 = self.Ray(self.x, self.y, self.soll_angle + math.radians(180))
 
-        ray9 =  self.Ray(self.x, self.y, self.soll_angle + math.radians(10))
-        ray10 = self.Ray(self.x, self.y, self.soll_angle - math.radians(10))
-        ray11 = self.Ray(self.x, self.y, self.soll_angle + math.radians(135))
-        ray12 = self.Ray(self.x, self.y, self.soll_angle - math.radians(135))
-        ray13 = self.Ray(self.x, self.y, self.soll_angle + math.radians(20))
-        ray14 = self.Ray(self.x, self.y, self.soll_angle - math.radians(20))
+        # ray9 =  self.Ray(self.x, self.y, self.soll_angle + math.radians(10))
+        # ray10 = self.Ray(self.x, self.y, self.soll_angle - math.radians(10))
+        # ray11 = self.Ray(self.x, self.y, self.soll_angle + math.radians(135))
+        # ray12 = self.Ray(self.x, self.y, self.soll_angle - math.radians(135))
+        # ray13 = self.Ray(self.x, self.y, self.soll_angle + math.radians(20))
+        # ray14 = self.Ray(self.x, self.y, self.soll_angle - math.radians(20))
 
-        ray15 = self.Ray(self.p1.x,self.p1.y, self.soll_angle + math.radians(90))
-        ray16 = self.Ray(self.p2.x,self.p2.y, self.soll_angle - math.radians(90))
+        # ray15 = self.Ray(self.p1.x,self.p1.y, self.soll_angle + math.radians(90))
+        # ray16 = self.Ray(self.p2.x,self.p2.y, self.soll_angle - math.radians(90))
 
-        ray17 = self.Ray(self.p1.x,self.p1.y, self.soll_angle + math.radians(0))
-        ray18 = self.Ray(self.p2.x,self.p2.y, self.soll_angle - math.radians(0))
+        # ray17 = self.Ray(self.p1.x,self.p1.y, self.soll_angle + math.radians(0))
+        # ray18 = self.Ray(self.p2.x,self.p2.y, self.soll_angle - math.radians(0))
 
         self.rays = []
         self.rays.append(ray1)
@@ -210,18 +210,18 @@ class Car:
         self.rays.append(ray7)
         self.rays.append(ray8)
 
-        self.rays.append(ray9)
-        self.rays.append(ray10)
-        self.rays.append(ray11)
-        self.rays.append(ray12)
-        self.rays.append(ray13)
-        self.rays.append(ray14)
+        # self.rays.append(ray9)
+        # self.rays.append(ray10)
+        # self.rays.append(ray11)
+        # self.rays.append(ray12)
+        # self.rays.append(ray13)
+        # self.rays.append(ray14)
 
-        self.rays.append(ray15)
-        self.rays.append(ray16)
+        # self.rays.append(ray15)
+        # self.rays.append(ray16)
 
-        self.rays.append(ray17)
-        self.rays.append(ray18)
+        # self.rays.append(ray17)
+        # self.rays.append(ray18)
 
 
         observations = []
@@ -288,7 +288,7 @@ class Car:
 
     def cross_goal(self, goal):
         
-        line1 = Line(self.p1, self.p3)
+        # line1 = Line(self.p3, self.p4)
 
         vec = self.rotate(Point(0,0), Point(0,-50), self.angle)
         line1 = Line(Point(self.x,self.y),Point(self.x + vec.x, self.y + vec.y))

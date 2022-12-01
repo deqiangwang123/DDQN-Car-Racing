@@ -21,7 +21,7 @@ PREDICTION_BATCH_SIZE = 1
 TRAINING_BATCH_SIZE = MINIBATCH_SIZE
 
 NUM_ACTION = 5
-STATE_DIM = 18
+STATE_DIM = 8
 
 EPSILON_INIT = 1
 EPSILON_DECAY = 0.995 ## 0.9975 99975
@@ -53,7 +53,7 @@ class DQNAgent:
     def create_model(self):
         model = tf.keras.Sequential()
         model.add(tf.keras.Input(shape=(STATE_DIM,)))
-        model.add(tf.keras.layers.Dense(512, activation=tf.nn.relu)) 
+        # model.add(tf.keras.layers.Dense(512, activation=tf.nn.relu)) 
         model.add(tf.keras.layers.Dense(256, activation=tf.nn.relu)) 
         model.add(tf.keras.layers.Dense(32, activation=tf.nn.relu)) 
         model.add(tf.keras.layers.Dense(NUM_ACTION, activation=tf.nn.softmax))

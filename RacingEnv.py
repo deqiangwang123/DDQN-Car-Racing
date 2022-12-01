@@ -12,7 +12,8 @@ NEG_SPEED_PENALTY = -10
 LOW_SPEED_PENALTY = -1
 RUN_REWARD = 1
 CRASH_PENALTY = -500
-GOAL_REWARD = 10
+GOAL_REWARD = 100
+NOT_GOAL_PENALTY = -100
 
 class RacingEnv:
 
@@ -68,9 +69,18 @@ class RacingEnv:
                 index = 1
             if goal.isactiv:
                 if self.car.cross_goal(goal):
-                    goal.isactiv = False
+                    
+                    for g in self.goals:
+                        g.isactiv = False
+                        g.isbackward = False
+                    goal.isbackward=True
                     self.goals[index-2].isactiv = True
+                    # self.goals[index-1].isbackward = True
                     reward += GOAL_REWARD
+
+            elif not goal.isbackward:
+                if self.car.cross_goal(goal):
+                    reward += NOT_GOAL_PENALTY
 
             index = index + 1
 
@@ -108,6 +118,8 @@ class RacingEnv:
             for goal in self.goals:
                 goal.draw(self.screen)
                 if goal.isactiv:
+                    goal.draw(self.screen)
+                if goal.isbackward:
                     goal.draw(self.screen)
         
         self.car.draw(self.screen)
