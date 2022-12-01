@@ -8,7 +8,7 @@ import random
 from keras.models import load_model
 
 REPLAY_MEMORY_SIZE = 5000
-MIN_REPLAY_MEMORY_SIZE = 5000
+MIN_REPLAY_MEMORY_SIZE = 1000
 MINIBATCH_SIZE = 256
 
 
@@ -16,18 +16,18 @@ MINIBATCH_SIZE = 256
 # MIN_REPLAY_MEMORY_SIZE = 100
 # MINIBATCH_SIZE = 50
 
-DISCOUNT = 0.999
+DISCOUNT = 0.99
 PREDICTION_BATCH_SIZE = 1
 TRAINING_BATCH_SIZE = MINIBATCH_SIZE
 
-NUM_ACTION = 9
-STATE_DIM = 19
+NUM_ACTION = 5
+STATE_DIM = 18
 
 EPSILON_INIT = 1
-EPSILON_DECAY = 0.9995 ## 0.9975 99975
+EPSILON_DECAY = 0.995 ## 0.9975 99975
 MIN_EPSILON = 0.05
 
-UPDATE_TARGET_EVERY = 50
+UPDATE_TARGET_EVERY = 5
 
 FILE_NAME = 'dqn_model.h5'
 
@@ -53,11 +53,11 @@ class DQNAgent:
     def create_model(self):
         model = tf.keras.Sequential()
         model.add(tf.keras.Input(shape=(STATE_DIM,)))
-        model.add(tf.keras.layers.Dense(512, activation=tf.nn.relu)) #prev 256 
-        model.add(tf.keras.layers.Dense(256, activation=tf.nn.relu)) #prev 256 
-        model.add(tf.keras.layers.Dense(32, activation=tf.nn.relu)) #prev 256
+        model.add(tf.keras.layers.Dense(512, activation=tf.nn.relu)) 
+        model.add(tf.keras.layers.Dense(256, activation=tf.nn.relu)) 
+        model.add(tf.keras.layers.Dense(32, activation=tf.nn.relu)) 
         model.add(tf.keras.layers.Dense(NUM_ACTION, activation=tf.nn.softmax))
-        model.compile(loss = "mse", optimizer="adam")
+        model.compile(loss = "mse", optimizer=Adam(lr=0.001))
         return model
 
     def update_replay_memory(self, transition):

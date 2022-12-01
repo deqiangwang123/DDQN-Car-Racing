@@ -9,10 +9,10 @@ from Cars import Car
 
 LIFE_REWARD = 0
 NEG_SPEED_PENALTY = -10
-LOW_SPEED_PENALTY = 1
-RUN_REWARD = 5
-CRASH_PENALTY = -1000
-GOAL_REWARD = 100
+LOW_SPEED_PENALTY = -1
+RUN_REWARD = 1
+CRASH_PENALTY = -500
+GOAL_REWARD = 10
 
 class RacingEnv:
 
@@ -53,9 +53,9 @@ class RacingEnv:
         reward = LIFE_REWARD
 
         # Check if speed of the car
-        if self.car.vel > 0:
+        if self.car.vel >= 0:
             reward = NEG_SPEED_PENALTY
-        elif self.car.vel > -3:
+        elif self.car.vel > -2:
             reward = LOW_SPEED_PENALTY
         else:
             reward = RUN_REWARD

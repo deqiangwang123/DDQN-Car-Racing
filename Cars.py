@@ -2,6 +2,7 @@ import pygame
 import math
 from Walls import Wall
 from Goals import Goal
+import math   
 
 class Point:
     def __init__(self, x, y):
@@ -32,7 +33,7 @@ class Car:
         self.soll_angle = self.angle
 
         self.dvel = 1
-        self.vel = 0
+        self.vel = -1
         self.velX = 0
         self.velY = 0
         self.maxvel = 15 # before 15
@@ -115,13 +116,14 @@ class Car:
         elif choice == 3:
             self.accelerate(self.dvel)
         elif choice == 4:
-            self.accelerate(self.dvel)
-            self.turn(1)
+            self.accelerate(-self.dvel)
+
         elif choice == 5:
             self.accelerate(self.dvel)
-            self.turn(-1)
+            self.turn(1)
         elif choice == 6:
-            self.accelerate(-self.dvel)
+            self.accelerate(self.dvel)
+            self.turn(-1)
         elif choice == 7:
             self.accelerate(-self.dvel)
             self.turn(1)
@@ -138,8 +140,8 @@ class Car:
         # if self.vel > self.maxvel:
         #     self.vel = self.maxvel
 
-        if self.vel > 0:
-            self.vel = 0
+        if self.vel >= 0:
+            self.vel = -1
 
         if self.vel < -self.maxvel:
             self.vel = -self.maxvel
@@ -232,7 +234,7 @@ class Car:
                 pt = ray.cast(wall)
                 if pt:
                     # add the dist by different rays
-                    dist = self.distance(Point(self.x, self.y),pt)
+                    dist = math.floor(self.distance(Point(self.x, self.y),pt))
                     if dist < temp:
                         temp = dist
                         temp_pt = pt
@@ -241,9 +243,9 @@ class Car:
                 # else:
                 #     observations.append(10000)
 
-        observations.append(self.vel / self.maxvel)
-        observations.append(self.soll_angle)
-        observations.append(self.dvel)
+        # observations.append(self.vel / self.maxvel)
+        # observations.append(self.soll_angle)
+        # observations.append(self.dvel)
         return observations
 
     def collision(self, wall):
