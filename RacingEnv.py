@@ -12,8 +12,11 @@ NEG_SPEED_PENALTY = -10
 LOW_SPEED_PENALTY = -1
 RUN_REWARD = 1
 CRASH_PENALTY = -500
-GOAL_REWARD = 100
+GOAL_REWARD = 500
 NOT_GOAL_PENALTY = -100
+TOO_CLOSE_PENALTY = -5
+CLOSE_PENALTY = -1
+
 
 class RacingEnv:
 
@@ -94,6 +97,12 @@ class RacingEnv:
         #normalize states
         if done:
             new_state = None
+        if new_state:
+            for dis in new_state:
+                if dis < 25:
+                    reward += TOO_CLOSE_PENALTY
+                elif dis < 45:
+                    reward += CLOSE_PENALTY
 
         return new_state, reward, done
 
